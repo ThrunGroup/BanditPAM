@@ -33,7 +33,7 @@ KMedoids::KMedoids(int n_medoids, std::string algorithm, int verbosity,
        verbosity(verbosity),
        logFilename(logFilename) {
   KMedoids::checkAlgorithm(algorithm);
-  std::map<std::tuple<int,int>, double> cache;
+  std::map<std::tuple<size_t, size_t>, double> cache;
 }
 
 /**
@@ -107,8 +107,8 @@ int KMedoids::getSteps() {
  */
 double KMedoids::wrappedLossFn(size_t i, size_t j) {
   // If not in cache, compute
-  if (cache.find(std::make_tuple(static_cast<int>(i), static_cast<int>(j))) == cache.end()) {
-    cache[std::make_tuple(static_cast<int>(i), static_cast<int>(j))] = (this->*lossFn)(i, j);
+  if (cache.find(std::make_tuple(i, j)) == cache.end()) {
+    cache[std::make_tuple(i, j)] = (this->*lossFn)(i, j);
   }
   return cache[std::make_tuple(i, j)];
 }
@@ -542,8 +542,8 @@ void KMedoids::build_sigma(
     for (size_t i = 0; i < N; i++) {
         // gather a sample of points
         for (size_t j = 0; j < batch_size; j++) {
-            double cost = (this->*lossFn)(i, tmp_refs(j));
-            // double cost = wrappedLossFn(i, tmp_refs(j)); // causes segfault
+            // double cost = (this->*lossFn)(i, tmp_refs(j));
+            double cost = wrappedLossFn(i, tmp_refs(j)); // causes segfault
             if (use_absolute) {
                 sample(j) = cost;
             } else {

@@ -134,7 +134,7 @@ class KMedoids {
 
     void fit(arma::mat inputData, std::string loss);
 
-    std::map<std::tuple<int,int>, double> cache;
+    std::map<std::tuple<size_t, size_t>, double> cache;
 
     // The functions below are "get" functions for read-only attributes
 
