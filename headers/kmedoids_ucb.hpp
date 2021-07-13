@@ -176,7 +176,7 @@ class KMedoids {
 
     void build_naive(arma::mat& data, arma::rowvec& medoidIndices);
 
-    void swap_naive(arma::mat& data, arma::rowvec& medoidIndices);
+    void swap_naive(arma::mat& data, arma::rowvec& medoidIndices, arma::rowvec& assignments);
 
     void build(
       arma::mat& data,
